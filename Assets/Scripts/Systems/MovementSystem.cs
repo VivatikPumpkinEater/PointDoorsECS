@@ -32,7 +32,8 @@ public class MovementSystem : IEcsInitSystem, IEcsRunSystem
 
             if (!MonoBehaviorUtility.Destination(position.Value, moveTo.Position, 0.5f))
             {
-                speed.MovementSpeed = 0f;
+                Utility.GetOrAddComponent(entity, systems.GetWorld().GetPool<NeedReset>());
+                
                 _poolNeedMove.Del(entity);
                 return;
             }

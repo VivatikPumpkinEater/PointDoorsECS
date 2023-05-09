@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerConfig
   m_EditorClassIdentifier: 
   Prefab: {fileID: 0}
-  Acceleration: 1
-  MaxSpeed: 2
-  RotationSpeed: 15
+  Acceleration: 0.01
+  MaxSpeed: 0.02
+  RotationSpeed: 8
   DestinationDistance: 0.5
