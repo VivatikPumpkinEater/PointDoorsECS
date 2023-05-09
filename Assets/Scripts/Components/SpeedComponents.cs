@@ -2,7 +2,9 @@
 {
     public struct SpeedComponents
     {
-        public float Speed;
-        public float MaxSpeed;
+        public float MovementSpeed;
+        public float MaxMovementSpeed;
+        public float Acceleration;
+        public float RotationSpeed;
     }
 }

@@ -6,7 +6,9 @@ namespace Configs
     public class PlayerConfig : ScriptableObject
     {
         public PlayerView Prefab;
-        public float Speed;
-        public float DestinationDisatnce;
+        public float Acceleration;
+        public float MaxSpeed;
+        public float RotationSpeed;
+        public float DestinationDistance;
     }
 }

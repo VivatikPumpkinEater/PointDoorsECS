@@ -1,4 +1,4 @@
-﻿namespace Components
+﻿namespace Markers
 {
     public struct PlayerMarker
     {

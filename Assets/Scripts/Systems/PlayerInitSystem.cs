@@ -1,5 +1,8 @@
 ﻿using Components;
+using Configs;
+using DefaultNamespace;
 using Leopotam.EcsLite;
+using Markers;
 using UnityEngine;
 
 namespace Systems
@@ -7,11 +10,13 @@ namespace Systems
     public class PlayerInitSystem : IEcsInitSystem
     {
         private Transform _playerTransform;
+        private readonly PlayerConfig _playerConfig;
         private PlayerView _playerView;
         
-        public PlayerInitSystem(Transform playerTransform)
+        public PlayerInitSystem(Transform playerTransform, PlayerConfig playerConfig)
         {
             _playerTransform = playerTransform;
+            _playerConfig = playerConfig;
             _playerView = _playerTransform.GetComponent<PlayerView>();
         }
         
@@ -20,15 +25,30 @@ namespace Systems
             var world = systems.GetWorld();
             var entity = world.NewEntity();
 
+            var deltaTime = systems.GetShared<SharedTime>().DeltaTime;
+
             world.GetPool<PlayerMarker>().Add(entity);
             
             ref var positions = ref world.GetPool<Position>().Add(entity);
             positions.Value = _playerTransform.position;
+            
             ref var moveTo = ref world.GetPool<MoveTo>().Add(entity);
             moveTo.Position = _playerTransform.position;
+            moveTo.DestinationDistance = _playerConfig.DestinationDistance;
+
+            ref var rotation = ref world.GetPool<Rotation>().Add(entity);
+            rotation.Value = _playerTransform.rotation;
+
+            ref var speedComponent = ref world.GetPool<SpeedComponents>().Add(entity);
+            speedComponent.MovementSpeed = 0f;
+            speedComponent.Acceleration = _playerConfig.Acceleration;
+            speedComponent.MaxMovementSpeed = _playerConfig.MaxSpeed;
+            speedComponent.RotationSpeed = _playerConfig.RotationSpeed;
             
             _playerView.SetData(entity, world);
             DataListener<Position>.AddComponent(entity, positions);
+            DataListener<Rotation>.AddComponent(entity, rotation);
+            DataListener<SpeedComponents>.AddComponent(entity, speedComponent);
         }
     }
 }

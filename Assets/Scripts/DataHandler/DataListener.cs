@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public static class DataListener<T> where T : struct
+public class DataListener<T> where T : struct
 {
     public static event Action<int> EntityUpdate;
 
-    private static Dictionary<int, T> Components = new();
+    public static Dictionary<int, T> Components = new();
 
     public static void AddComponent(int entity, T component)
     {

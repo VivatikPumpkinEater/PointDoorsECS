@@ -1,5 +1,6 @@
 ﻿using Components;
 using Leopotam.EcsLite;
+using Markers;
 using UnityEngine;
 
 namespace Systems
@@ -8,15 +9,17 @@ namespace Systems
     {
         private readonly Camera _camera = Camera.main;
 
+        private EcsWorld _world;
+        
         private EcsFilter _filter;
-        private EcsPool<MoveTo> _pool;
+        private EcsPool<MoveTo> _moveToPool;
 
         public void Init(IEcsSystems systems)
         {
-            var world = systems.GetWorld();
+            _world = systems.GetWorld();
             
-            _filter = world.Filter<PlayerMarker>().End();
-            _pool = world.GetPool<MoveTo>();
+            _filter = _world.Filter<PlayerMarker>().End();
+            _moveToPool = _world.GetPool<MoveTo>();
         }
         
         public void Run(IEcsSystems systems)
@@ -31,8 +34,11 @@ namespace Systems
 
             foreach (var entity in _filter)
             {
-                ref var moveTo = ref Utility.GetOrAddComponent(entity, _pool);
+                ref var moveTo = ref Utility.GetOrAddComponent(entity, _moveToPool);
                 moveTo.Position = hit.point;
+
+                Utility.GetOrAddComponent(entity, _world.GetPool<NeedMove>());
+                Utility.GetOrAddComponent(entity, _world.GetPool<NeedRotation>());
             }
         }
     }
