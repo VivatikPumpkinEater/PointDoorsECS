@@ -1,6 +1,5 @@
 ﻿using Components;
 using Configs;
-using DefaultNamespace;
 using Leopotam.EcsLite;
 using Markers;
 using UnityEngine;
@@ -9,8 +8,9 @@ namespace Systems
 {
     public class PlayerInitSystem : IEcsInitSystem
     {
-        private Transform _playerTransform;
         private readonly PlayerConfig _playerConfig;
+
+        private Transform _playerTransform;
         private PlayerView _playerView;
         
         public PlayerInitSystem(Transform playerTransform, PlayerConfig playerConfig)
@@ -25,7 +25,7 @@ namespace Systems
             var world = systems.GetWorld();
             var entity = world.NewEntity();
 
-            var deltaTime = systems.GetShared<SharedTime>().DeltaTime;
+            // var deltaTime = systems.GetShared<SharedTime>().DeltaTime;
 
             world.GetPool<PlayerMarker>().Add(entity);
             

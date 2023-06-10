@@ -1,7 +1,6 @@
 ﻿using Components;
 using Leopotam.EcsLite;
 using Markers;
-using UnityEngine;
 
 namespace Systems
 {

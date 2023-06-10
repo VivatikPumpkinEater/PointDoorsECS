@@ -1,5 +1,4 @@
-﻿using System;
-using Components;
+﻿using Components;
 using Leopotam.EcsLite;
 using UnityEngine;
 
@@ -8,7 +7,6 @@ public class PlayerView : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     private int _entity;
-
     private EcsPool<Position> _positionPool;
     private EcsPool<Rotation> _rotationPool;
     private EcsPool<SpeedComponents> _speedPool;
@@ -55,5 +53,12 @@ public class PlayerView : MonoBehaviour
 
         var rotation = _rotationPool.Get(entity).Value;
         transform.rotation = rotation;
+    }
+
+    private void OnDestroy()
+    {
+        DataListener<Position>.EntityUpdate -= UpdatePosition;
+        DataListener<Rotation>.EntityUpdate -= UpdateRotation;
+        DataListener<SpeedComponents>.EntityUpdate -= BlendAnimation;
     }
 }

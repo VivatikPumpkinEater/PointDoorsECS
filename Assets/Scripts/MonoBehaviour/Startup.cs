@@ -7,7 +7,8 @@ using UnityEngine;
 public class Startup : MonoBehaviour
 {
     [SerializeField] private PlayerConfig _playerConfig;
-
+    [SerializeField] private DoorButtonPair[] _doorButtonPairs;
+    
     public Transform PlayerTransform;
 
     private EcsWorld _world;
@@ -23,6 +24,9 @@ public class Startup : MonoBehaviour
             .Add(new MovementSystem())
             .Add(new RotationSystem())
             .Add(new SpeedLerpSystem())
+            .Add(new DoorButtonPairInitSystem(_doorButtonPairs))
+            .Add(new ButtonActivateSystem())
+            .Add(new DoorCloseOpenSystem())
             .Init();
     }
 
